@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pocemons_app/features/screens/widgets/star_frame.dart';
 import 'package:pocemons_app/themes/app_colors.dart';
 import 'package:pocemons_app/themes/text_styles.dart';
 
@@ -11,12 +13,12 @@ class PokemonItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 140,
+      height: 150,
       width: double.infinity,
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.fromLTRB(15, 0, 150, 0),
             alignment: Alignment.centerLeft,
             child: Text(
               name,
@@ -32,9 +34,22 @@ class PokemonItems extends StatelessWidget {
           Positioned(
             right: 3,
             bottom: 0,
-            child: Image.asset(
-              'assets/images/pokemon.png',
-              scale: 4,
+            child: CachedNetworkImage(
+              imageUrl: image,
+              imageBuilder: (context, imageProvider) => ClipPath(
+                clipper: StarClipper(),
+                child: Container(
+                  color: Colors.black,
+                  width: 150,
+                  height: 150,
+                  child: Image.network(
+                    image,
+                    scale: 3,
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           ),
         ],

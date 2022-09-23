@@ -10,8 +10,8 @@ class DioSettings {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://rickandmortyapi.com/api/',
-      connectTimeout: 15000,
-      receiveTimeout: 15000,
+      connectTimeout: 1,
+      receiveTimeout: 1,
     ),
   );
 
@@ -34,7 +34,7 @@ class DioSettings {
         return handler.next(options);
       },
       onError: (DioError error, handler) {
-        print('ON ERROR ОШИБКА ОТ ДИО-АПИ');
+        print('ON ERROR ОШИБКА ОТ ДИО');
         handler.next(error);
       },
       onResponse: (response, handler) {

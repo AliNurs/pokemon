@@ -13,7 +13,7 @@ class PokemonScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff372323),
+      backgroundColor: AppColors.contentColor,
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: Column(children: [
@@ -23,7 +23,7 @@ class PokemonScreen extends StatelessWidget {
             child: BlocBuilder<PokemonCubit, PokemonState>(
               builder: (context, state) {
                 if (state is LoadingState) {
-                  return CircularProgressIndicator.adaptive();
+                  return Center(child: CircularProgressIndicator.adaptive());
                 }
                 if (state is SuccesState) {
                   return ListView.separated(
@@ -33,6 +33,14 @@ class PokemonScreen extends StatelessWidget {
                     ),
                     separatorBuilder: (context, index) => SizedBox(height: 12),
                     itemCount: state.pokemonModel.results!.length,
+                  );
+                }
+                if (state is ErrorState) {
+                  return Text(
+                    state.message,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.poppins14w500
+                        .copyWith(color: Colors.white70),
                   );
                 }
                 return Text('Error !');

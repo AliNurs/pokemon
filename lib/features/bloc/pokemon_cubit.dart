@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pocemons_app/data/model/pokemon_model.dart';
@@ -9,11 +12,23 @@ class PokemonCubit extends Cubit<PokemonState> {
 
   final PokemonRepo pokemonRepo;
 
-  getPokemons() async {
+  getPokemons(String? name) async {
     emit(LoadingState());
-    final result = await pokemonRepo.getResult();
-    final PokemonModel pokemon = PokemonModel.fromJson(result.data);
-    emit(SuccesState(pokemonModel: pokemon));
+
+    try {
+      final result = await pokemonRepo.getResult(name!);
+      final PokemonModel pokemon = PokemonModel.fromJson(result.data);
+      emit(SuccesState(pokemonModel: pokemon));
+    } catch (e) {
+      if (e is DioError) {
+        if (e.response!.statusCode.toString() == 404.toString()) {
+          emit(ErrorState(message: 'Нет Персонаж с таким именем!'));
+        }
+        if (e.type == DioErrorType.other) {
+          emit(ErrorState(message: 'Нет Подключение к интернету'));
+        }
+      }
+    }
   }
 }
 
@@ -30,4 +45,7 @@ class InitialState extends PokemonState {}
 
 class LoadingState extends PokemonState {}
 
-class ErrorState extends PokemonState {}
+class ErrorState extends PokemonState {
+  ErrorState({required this.message});
+  final message;
+}

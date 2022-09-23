@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       child: BlocProvider(
         create: (context) => PokemonCubit(
             pokemonRepo: RepositoryProvider.of<PokemonRepo>(context))
-          ..getPokemons(),
+          ..getPokemons(''),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home: PokemonScreen(),

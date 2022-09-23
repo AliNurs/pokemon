@@ -1,7 +1,9 @@
 part of '../pokemon_screen.dart';
 
 class _AppBar extends StatelessWidget {
-  const _AppBar({super.key});
+  _AppBar({super.key});
+
+  String name = '';
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +37,21 @@ class _AppBar extends StatelessWidget {
         const SizedBox(height: 12),
         Row(
           children: [
-            Flexible(child: AppTextField()),
+            Flexible(
+              child: AppTextField(
+                onChanged: (name) {
+                  this.name = name;
+                },
+              ),
+            ),
             // ),
             const SizedBox(
               width: 15,
-              // height: 15,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                BlocProvider.of<PokemonCubit>(context).getPokemons(name);
+              },
               child: Container(
                 // ignore: sort_child_properties_last
                 child: const Icon(
