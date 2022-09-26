@@ -11,21 +11,28 @@ class PokemonCubit extends Cubit<PokemonState> {
   PokemonCubit({required this.pokemonRepo}) : super(LoadingState());
 
   final PokemonRepo pokemonRepo;
+  int currentPage = 1;
+  late final int maxPage;
 
   getPokemons(String? name) async {
     emit(LoadingState());
 
+    currentPage++;
+
     try {
-      final result = await pokemonRepo.getResult(name!);
+      final result =
+          await pokemonRepo.getResult(name: name!, currentPage: currentPage);
       final PokemonModel pokemon = PokemonModel.fromJson(result.data);
+
       emit(SuccesState(pokemonModel: pokemon));
     } catch (e) {
       if (e is DioError) {
-        if (e.response!.statusCode.toString() == 404.toString()) {
-          emit(ErrorState(message: 'Нет Персонаж с таким именем!'));
-        }
         if (e.type == DioErrorType.other) {
           emit(ErrorState(message: 'Нет Подключение к интернету'));
+        }
+
+        if (e.response!.statusCode == 404) {
+          emit(ErrorState(message: 'Нет Персонаж с таким именем!'));
         }
       }
     }

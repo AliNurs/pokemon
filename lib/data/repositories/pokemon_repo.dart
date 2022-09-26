@@ -8,7 +8,10 @@ class PokemonRepo {
   Future<Response> getResult(String name) async {
     return await dio.get(
       'character/',
-      queryParameters: {'name': name},
+      queryParameters: {
+        'name': name,
+        // 'page': 7,
+      },
     );
   }
 }

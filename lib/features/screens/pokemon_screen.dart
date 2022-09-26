@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocemons_app/features/bloc/pokemon_cubit.dart';
@@ -15,7 +17,7 @@ class PokemonScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.contentColor,
       body: Padding(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.only(top: 30, right: 30, left: 30),
         child: Column(children: [
           _AppBar(),
           SizedBox(height: 10),
@@ -26,24 +28,35 @@ class PokemonScreen extends StatelessWidget {
                   return Center(child: CircularProgressIndicator.adaptive());
                 }
                 if (state is SuccesState) {
-                  return ListView.separated(
-                    itemBuilder: (context, index) => PokemonItems(
-                      image: state.pokemonModel.results?[index].image,
-                      name: state.pokemonModel.results?[index].name,
+                  return NotificationListener(
+                    onNotification: (ScrollNotification notification) {
+                      final current = notification.metrics.pixels + 100;
+                      final max = notification.metrics.maxScrollExtent;
+                      if (current >= max) {
+                        log('True');
+                      }
+                      return false;
+                    },
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => PokemonItems(
+                        image: state.pokemonModel.results?[index].image,
+                        name: state.pokemonModel.results?[index].name,
+                      ),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 12),
+                      itemCount: state.pokemonModel.results!.length,
                     ),
-                    separatorBuilder: (context, index) => SizedBox(height: 12),
-                    itemCount: state.pokemonModel.results!.length,
                   );
                 }
                 if (state is ErrorState) {
                   return Text(
-                    state.message,
+                    state.message ?? '',
                     textAlign: TextAlign.center,
                     style: AppTextStyles.poppins14w500
                         .copyWith(color: Colors.white70),
                   );
                 }
-                return Text('Error !');
+                return Text('Vse state Error !');
               },
             ),
           ),

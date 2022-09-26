@@ -10,8 +10,8 @@ class DioSettings {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://rickandmortyapi.com/api/',
-      connectTimeout: 1,
-      receiveTimeout: 1,
+      connectTimeout: 1500,
+      receiveTimeout: 1500,
     ),
   );
 

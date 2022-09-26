@@ -41,6 +41,9 @@ class _AppBar extends StatelessWidget {
               child: AppTextField(
                 onChanged: (name) {
                   this.name = name;
+                  if (name.isEmpty) {
+                    BlocProvider.of<PokemonCubit>(context).getPokemons(name);
+                  }
                 },
               ),
             ),
@@ -50,7 +53,9 @@ class _AppBar extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                BlocProvider.of<PokemonCubit>(context).getPokemons(name);
+                if (name.isNotEmpty) {
+                  BlocProvider.of<PokemonCubit>(context).getPokemons(name);
+                }
               },
               child: Container(
                 // ignore: sort_child_properties_last
