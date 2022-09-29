@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         create: (context) => PokemonCubit(
             pokemonRepo: RepositoryProvider.of<PokemonRepo>(context))
           ..getPokemons(''),
-        child: MaterialApp(
+        child: const MaterialApp(
           debugShowCheckedModeBanner: false,
           home: PokemonScreen(),
         ),

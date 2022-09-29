@@ -1,6 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 part of '../pokemon_screen.dart';
 
 class _AppBar extends StatelessWidget {
+  // ignore: unused_element
   _AppBar({super.key});
 
   String name = '';

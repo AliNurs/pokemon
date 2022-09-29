@@ -18,18 +18,18 @@ class PokemonItems extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(15, 0, 150, 0),
+            padding: const EdgeInsets.fromLTRB(15, 0, 150, 0),
             alignment: Alignment.centerLeft,
-            child: Text(
-              name,
-              style: AppTextStyles.poppins18w500,
-            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: AppColors.itemPoints,
             ),
             height: 74,
             width: double.infinity,
+            child: Text(
+              name,
+              style: AppTextStyles.poppins18w500,
+            ),
           ),
           Positioned(
             right: 3,
@@ -48,8 +48,8 @@ class PokemonItems extends StatelessWidget {
                   ),
                 ),
               ),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
         ],

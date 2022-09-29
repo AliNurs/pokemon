@@ -5,12 +5,13 @@ class PokemonRepo {
   PokemonRepo({required this.dio});
   final Dio dio;
 
-  Future<Response> getResult(String name) async {
+  Future<Response> getResult(
+      {required String name, required int currentPage}) async {
     return await dio.get(
       'character/',
       queryParameters: {
         'name': name,
-        // 'page': 7,
+        'page': currentPage,
       },
     );
   }
